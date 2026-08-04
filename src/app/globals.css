@@ -184,3 +184,54 @@ input[type='number'] {
     @apply bg-background text-foreground;
   }
 }
+
+/* Trong globals.css */
+.font-script {
+  font-family: 'Dancing Script', 'Pacifico', cursive;
+}
+@font-face {
+  font-family: 'ImperialScript-Regular';
+  src: url('/fonts/ImperialScript-Regular.woff2') format('woff2'),
+       url('/fonts/ImperialScript-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Custom Scrollbar theo style mẫu */
+.blue-custom-scrollbar::-webkit-scrollbar {
+  width: 10px; /* Độ rộng thanh cuộn */
+}
+
+/* Rãnh chạy thanh cuộn (Nền xanh nhạt) */
+.blue-custom-scrollbar::-webkit-scrollbar-track {
+  background-color: #dceef9;
+  border-radius: 4px;
+}
+
+/* Cần gạt/Con trỏ cuộn (Thanh màu xanh nhạt/đậm bo tròn) */
+.blue-custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #1b8cd8;
+  border-radius: 20px;
+  border: 2px solid #dceef9; /* Tạo khoảng trống giúp thanh mỏng và mượt */
+}
+
+.blue-custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #0f6bb1;
+}
+
+/* Mũi tên lên ở đầu thanh cuộn */
+.blue-custom-scrollbar::-webkit-scrollbar-button:single-button:vertical:decrement {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='%231b8cd8'><path d='M12 8l-6 6h12z'/></svg>") no-repeat center center;
+  background-color: #dceef9;
+  height: 12px;
+  display: block;
+}
+
+/* Mũi tên xuống ở cuối thanh cuộn */
+.blue-custom-scrollbar::-webkit-scrollbar-button:single-button:vertical:increment {
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='%231b8cd8'><path d='M12 16l6-6H6z'/></svg>") no-repeat center center;
+  background-color: #dceef9;
+  height: 12px;
+  display: block;
+}
