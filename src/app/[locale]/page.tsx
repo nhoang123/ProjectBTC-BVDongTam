@@ -1,15 +1,11 @@
-import { useTranslations } from 'next-intl'
+import { redirect } from 'next/navigation'
 
 export const dynamicParams = false
 export function generateStaticParams() {
   return [{ locale: 'vi' }, { locale: 'en' }]
 }
 
-export default function HomePage() {
-  const t = useTranslations('HomePage')
-  return (
-    <div className='sm:bg-black bg-white'>
-      <h1 className='scroll-m-2'>{t('title')}</h1>
-    </div>
-  )
+export default function HomePage({ params }: { params: { locale: string } }) {
+  const homePath = params.locale === 'en' ? '/en/trang-chu' : '/trang-chu'
+  redirect(homePath)
 }
