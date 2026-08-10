@@ -15,9 +15,3 @@ export interface ContactInfoData {
   workingHours: string
   mapDirectionsUrl: string
 }
-
-export interface SocialLink {
-  name: string
-  icon: string
-  href: string
-}

@@ -36,10 +36,10 @@ export function Header() {
         }`}
       >
         <div className='mx-auto px-4 xsm:px-5 sm:px-6 lg:px-25 xl:px-10 2xl:px-16'>
-          <div className='flex items-center justify-between h-14 sm:h-20 lg:h-24'>
+          <div className='relative flex items-center justify-between h-14 sm:h-20 lg:h-24'>
             <Logo />
 
-            <div className='hidden xl:block text-center'>
+            <div className='pointer-events-none absolute left-1/2 -translate-x-1/2 hidden xl:block text-center'>
               <p
                 className='text-[2.5rem] xsm:text-[2.75rem] sm:text-[3rem] text-[#F3BB28]'
                 style={{ fontFamily: 'var(--font-great-vibes)' }}
@@ -48,7 +48,7 @@ export function Header() {
               </p>
             </div>
 
-            <div className='flex items-center gap-2 xsm:gap-3'>
+            <div className='flex items-center gap-2 xsm:gap-3 z-10'>
               <div className='hidden sm:block'>
                 <SearchButton />
               </div>

@@ -1,4 +1,4 @@
-import { ContactInfoData, NavColumnData, SocialLink } from '../types/footer.type'
+import { ContactInfoData, NavColumnData } from '../types/footer.type'
 
 export const mockContactInfo: ContactInfoData = {
   hotline: '0946 885 885',
@@ -7,13 +7,6 @@ export const mockContactInfo: ContactInfoData = {
   workingHours: 'Thứ 2 - Thứ 7: 7:00 - 17:00',
   mapDirectionsUrl: 'https://maps.google.com',
 }
-
-export const mockSocialLinks: SocialLink[] = [
-  { name: 'Facebook', icon: 'facebook', href: 'https://facebook.com' },
-  { name: 'Youtube', icon: 'youtube', href: 'https://youtube.com' },
-  { name: 'Tiktok', icon: 'tiktok', href: 'https://tiktok.com' },
-  { name: 'Instagram', icon: 'instagram', href: 'https://instagram.com' },
-]
 
 export const mockNavColumns: NavColumnData[] = [
   {

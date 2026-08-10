@@ -9,12 +9,11 @@ import { FooterContactInfo } from './components/FooterContactInfo'
 import { FooterMapCard } from './components/FooterMapCard'
 import { FooterNavColumn } from './components/FooterNavColumn'
 import { FooterSloganSocial } from './components/FooterSloganSocial'
-import { mockContactInfo, mockNavColumns, mockSocialLinks } from './data/footer.mock'
+import { mockContactInfo, mockNavColumns } from './data/footer.mock'
 
 export const FooterMainContainer: React.FC = () => {
   const [contactData] = useState(mockContactInfo)
   const [navData] = useState(mockNavColumns)
-  const [socialData] = useState(mockSocialLinks)
 
   return (
     <footer className='relative w-full bg-[#0089cf] p-2 sm:p-5 pb-16 lg:pb-5'>
@@ -52,7 +51,7 @@ export const FooterMainContainer: React.FC = () => {
           </div>
 
           <div className='flex flex-col items-center justify-start col-span-4 pt-8 pr-8'>
-            <FooterSloganSocial socials={socialData} />
+            <FooterSloganSocial /> {/* Gọi không cần prop socials */}
           </div>
 
           <div className='relative flex items-center col-span-8 pt-10 pb-2 pl-8'>
@@ -84,7 +83,7 @@ export const FooterMainContainer: React.FC = () => {
               <span className='block text-2xl font-black'>ĐỒNG TÂM</span>
             </h2>
           </div>
-          <FooterSloganSocial socials={socialData} />
+          <FooterSloganSocial /> {/* Gọi không cần prop socials */}
           <div className='w-full h-[1px] bg-slate-100 my-1' />
           <FooterContactInfo
             data={contactData}
