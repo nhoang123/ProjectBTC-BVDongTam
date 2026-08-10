@@ -15,10 +15,13 @@ export function useHeroSlider(total: number) {
     setCurrent((prev) => (prev - 1 + total) % total)
   }, [total])
 
-  const goTo = useCallback((index: number) => {
-    if (index < 0 || index >= total) return
-    setCurrent(index)
-  }, [total])
+  const goTo = useCallback(
+    (index: number) => {
+      if (index < 0 || index >= total) return
+      setCurrent(index)
+    },
+    [total],
+  )
 
   useEffect(() => {
     if (total <= 1) return

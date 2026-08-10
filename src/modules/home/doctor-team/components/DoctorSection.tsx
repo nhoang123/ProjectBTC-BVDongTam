@@ -1,6 +1,8 @@
 'use client'
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
+import React, { useState, useEffect } from 'react'
 
-import React, { useState, useEffect, useCallback } from 'react'
+import { Button } from '@/components/UI/button'
 
 import { doctorsData } from '../data/mockDoctors'
 
@@ -14,6 +16,7 @@ const DoctorSection = () => {
   const [isDesktop, setIsDesktop] = useState(false)
   const [isHovering, setIsHovering] = useState(false)
   const [direction, setDirection] = useState<1 | -1>(1)
+
   const totalSlides = doctorsData.length
   const visibleSlides = isDesktop ? 3 : 1
   const maxIndex = Math.max(totalSlides - visibleSlides, 0)
@@ -27,56 +30,60 @@ const DoctorSection = () => {
     return () => mediaQuery.removeEventListener('change', updateLayout)
   }, [])
 
-  const goToSlide = useCallback((index: number) => {
-    setCurrentIndex(Math.max(0, Math.min(index, maxIndex)))
-  }, [maxIndex])
-
-  const scroll = (direction: 'left' | 'right') => {
-    const baseIndex = Math.min(currentIndex, maxIndex)
-    const newIndex = direction === 'left'
-      ? Math.max(baseIndex - 1, 0)
-      : Math.min(baseIndex + 1, maxIndex)
-    setDirection(direction === 'left' ? -1 : 1)
-    goToSlide(newIndex)
+  const scroll = (scrollDirection: 'left' | 'right') => {
+    if (scrollDirection === 'left') {
+      setCurrentIndex((prev) => Math.max(prev - 1, 0))
+      setDirection(-1)
+    } else {
+      setCurrentIndex((prev) => Math.min(prev + 1, maxIndex))
+      setDirection(1)
+    }
   }
 
   useEffect(() => {
-    if (isHovering || maxIndex === 0) return
-    const timer = setInterval(() => {
-      setCurrentIndex((previousIndex) => {
-        const baseIndex = Math.max(0, Math.min(previousIndex, maxIndex))
-        let nextIndex = baseIndex + direction
+    if (maxIndex <= 0 || isHovering) return
+
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => {
+        const nextIndex = prevIndex + direction
+
         if (nextIndex >= maxIndex) {
           setDirection(-1)
-          nextIndex = maxIndex > 0 ? maxIndex - 1 : 0
+          return maxIndex
         }
+
         if (nextIndex <= 0) {
           setDirection(1)
-          nextIndex = maxIndex > 0 ? 1 : 0
+          return 0
         }
+
         return nextIndex
       })
     }, 5000)
-    return () => clearInterval(timer)
-  }, [currentIndex, direction, goToSlide, isHovering, maxIndex])
+
+    return () => clearInterval(interval)
+  }, [maxIndex, direction, isHovering])
 
   return (
     <section
-      className="w-full bg-linear-to-b from-white to-blue-50/30 py-12 md:py-20"
+      className='relative w-full bg-[#f4f8fb] pt-2 xsm:pt-3 sm:pt-4 pb-8 xsm:pb-10 sm:pb-12 md:pb-16 overflow-hidden'
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
-      <div className="mx-auto w-full max-w-[1750px] px-4 sm:px-6 lg:px-12">
-        <div className="w-full">
+      <div className='mx-auto w-full max-w-[109.375rem] px-3 xsm:px-1 sm:px-6 lg:px-25'>
+        <div className='w-full'>
           <SectionHeader />
         </div>
 
-        <div className="relative mt-6 group">
-          <DoctorSliderControls onPrevious={() => scroll('left')} onNext={() => scroll('right')} />
+        <div className='relative mt-4 xsm:mt-4 group'>
+          <DoctorSliderControls
+            onPrevious={() => scroll('left')}
+            onNext={() => scroll('right')}
+          />
 
-          <div className="w-full overflow-hidden pb-3">
+          <div className='w-full overflow-x-hidden overflow-y-visible pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'>
             <div
-              className="flex will-change-transform"
+              className='flex will-change-transform'
               style={{
                 width: `${(totalSlides / visibleSlides) * 100}%`,
                 transform: `translate3d(-${(activeIndex * 100) / totalSlides}%, 0, 0)`,
@@ -86,10 +93,10 @@ const DoctorSection = () => {
               {doctorsData.map((doctor) => (
                 <div
                   key={doctor.id}
-                  className="shrink-0 px-2 lg:px-3"
+                  className='shrink-0 -mt-10 px-2 xsm:px-3 sm:px-4 lg:px-3'
                   style={{ flex: `0 0 ${100 / totalSlides}%` }}
                 >
-                  <div className="h-full min-h-96 sm:min-h-100">
+                  <div className='h-full min-h-80 xsm:min-h-96 sm:min-h-96'>
                     <DoctorCard doctor={doctor} />
                   </div>
                 </div>
@@ -97,8 +104,37 @@ const DoctorSection = () => {
             </div>
           </div>
         </div>
-        <div className="mt-4">
-          <DoctorPagination total={totalSlides} activeIndex={activeIndex} />
+
+        {/* Hàng Phân trang & Điều hướng Mobile*/}
+        <div className='mt-6 xsm:mt-7 flex items-center justify-between lg:justify-center'>
+          <DoctorPagination
+            total={maxIndex + 1}
+            activeIndex={activeIndex}
+          />
+
+          <div className='flex items-center gap-2 lg:hidden'>
+            <button
+              onClick={() => scroll('left')}
+              className='flex h-10 w-10 items-center justify-center rounded-full border border-[#1991c7] bg-white text-[#1991c7] shadow-sm active:bg-[#1991c7] active:text-white'
+            >
+              <ChevronLeft className='h-5 w-5' />
+            </button>
+            <button
+              onClick={() => scroll('right')}
+              className='flex h-10 w-10 items-center justify-center rounded-full border border-[#1991c7] bg-white text-[#1991c7] shadow-sm active:bg-[#1991c7] active:text-white'
+            >
+              <ChevronRight className='h-5 w-5' />
+            </button>
+          </div>
+        </div>
+
+        <div className='mt-4 xsm:mt-5 flex justify-center lg:hidden'>
+          <Button
+            variant='outline'
+            className='w-full max-w-[280px] rounded-full border-[#1991c7] text-[#1991c7] font-bold h-11 text-sm shadow-sm'
+          >
+            Xem tất cả <ArrowRight className='ml-2 h-4 w-4' />
+          </Button>
         </div>
       </div>
     </section>

@@ -2,8 +2,8 @@ import Image from 'next/image'
 
 export function Logo() {
   return (
-    <div className='flex items-center gap-3'>
-      <div className='relative h-12 w-12 overflow-hidden rounded-full bg-[#0a5c7e]/10 ring-1 ring-[#0a5c7e]/10'>
+    <div className='flex items-center gap-2 sm:gap-3 shrink-0'>
+      <div className='relative h-9 w-9 sm:h-11 sm:w-11 lg:h-12 lg:w-12 shrink-0 overflow-hidden rounded-full bg-[#0a5c7e]/10 ring-1 ring-[#0a5c7e]/10'>
         <Image
           src='/images/logo-home.png'
           alt='Bệnh viện Đồng Tâm'
@@ -14,7 +14,7 @@ export function Logo() {
       </div>
 
       <div className='leading-tight'>
-        <div className='text-[1.25rem] font-bold tracking-tight text-[#0897d8] lg:text-[1.5rem]'>
+        <div className='whitespace-nowrap text-base font-bold tracking-tight text-[#0897d8] sm:text-lg lg:text-[1.5rem]'>
           BỆNH VIỆN ĐỒNG TÂM
         </div>
       </div>

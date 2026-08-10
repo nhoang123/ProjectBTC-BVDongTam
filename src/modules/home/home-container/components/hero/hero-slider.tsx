@@ -12,9 +12,9 @@ export function HeroSlider() {
   return (
     <section
       aria-label='Banner trang chủ'
-      className='relative overflow-hidden bg-[#eaf7ff] w-full'
+      className='relative overflow-hidden w-full'
     >
-      <div className='relative h-[400px] w-full sm:h-[500px] md:h-[550px] lg:h-[650px] xl:h-[700px]'>
+      <div className='relative w-full aspect-[28/10] sm:aspect-auto sm:h-[450px] md:h-[550px] lg:h-[650px] xl:h-[700px]'>
         <div className='flex h-full w-full'>
           {heroSlides.map((slide, index) => (
             <HeroSlide
@@ -25,7 +25,10 @@ export function HeroSlider() {
           ))}
         </div>
 
-        <HeroControls onPrev={prev} onNext={next} />
+        <HeroControls
+          onPrev={prev}
+          onNext={next}
+        />
       </div>
     </section>
   )

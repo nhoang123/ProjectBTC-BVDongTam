@@ -191,8 +191,9 @@ input[type='number'] {
 }
 @font-face {
   font-family: 'ImperialScript-Regular';
-  src: url('/fonts/ImperialScript-Regular.woff2') format('woff2'),
-       url('/fonts/ImperialScript-Regular.woff') format('woff');
+  src:
+    url('/fonts/ImperialScript-Regular.woff2') format('woff2'),
+    url('/fonts/ImperialScript-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -222,7 +223,8 @@ input[type='number'] {
 
 /* Mũi tên lên ở đầu thanh cuộn */
 .blue-custom-scrollbar::-webkit-scrollbar-button:single-button:vertical:decrement {
-  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='%231b8cd8'><path d='M12 8l-6 6h12z'/></svg>") no-repeat center center;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='%231b8cd8'><path d='M12 8l-6 6h12z'/></svg>")
+    no-repeat center center;
   background-color: #dceef9;
   height: 12px;
   display: block;
@@ -230,7 +232,8 @@ input[type='number'] {
 
 /* Mũi tên xuống ở cuối thanh cuộn */
 .blue-custom-scrollbar::-webkit-scrollbar-button:single-button:vertical:increment {
-  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='%231b8cd8'><path d='M12 16l6-6H6z'/></svg>") no-repeat center center;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 24 24' fill='%231b8cd8'><path d='M12 16l6-6H6z'/></svg>")
+    no-repeat center center;
   background-color: #dceef9;
   height: 12px;
   display: block;

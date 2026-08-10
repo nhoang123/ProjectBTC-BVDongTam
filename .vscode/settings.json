@@ -2,6 +2,11 @@
   "tailwindCSS.experimental.classRegex": [
     ["className[A-Za-z]*\\s*[:=]\\s*[\"'`]([^\"'`]*)[\"'`]"],
     ["cn\\(([^)]*)\\)"]
+  ],
+  "tailwindCSS.classAttributes": [],
+  "eslint.rules.customizations": [
+    { "rule": "object-curly-spacing", "severity": "off" }
   ]
 }
+
 

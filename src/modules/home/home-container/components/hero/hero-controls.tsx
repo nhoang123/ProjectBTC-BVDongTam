@@ -15,9 +15,9 @@ export function HeroControls({ onPrev, onNext }: Props) {
         size='icon'
         onClick={onPrev}
         aria-label='Xem slide trước'
-        className='absolute left-[0.75rem] top-1/2 z-20 h-[2.75rem] w-[2.75rem] -translate-y-1/2 rounded-full border border-white/70 bg-white/90 shadow-[0_0.6rem_1.6rem_rgba(0,0,0,0.12)] backdrop-blur transition-transform hover:-translate-y-1/2 hover:scale-105 hover:bg-white sm:left-[1rem] sm:h-[3rem] sm:w-[3rem]'
+        className='absolute left-[0.25rem] xsm:left-[0.5rem] sm:left-[1rem] top-1/2 z-20 h-[1.75rem] w-[1.75rem] xsm:h-[2.25rem] xsm:w-[2.25rem] sm:h-[3rem] sm:w-[3rem] -translate-y-1/2 rounded-full border border-white/70 bg-white/80 shadow-md backdrop-blur transition-transform hover:-translate-y-1/2 hover:scale-105 hover:bg-white'
       >
-        <ChevronLeft className='h-[1.125rem] w-[1.125rem]' />
+        <ChevronLeft className='h-3 w-3 xsm:h-4 xsm:w-4 sm:h-5 sm:w-5' />
       </Button>
 
       <Button
@@ -25,9 +25,9 @@ export function HeroControls({ onPrev, onNext }: Props) {
         size='icon'
         onClick={onNext}
         aria-label='Xem slide tiếp theo'
-        className='absolute right-[0.75rem] top-1/2 z-20 h-[2.75rem] w-[2.75rem] -translate-y-1/2 rounded-full border border-white/70 bg-white/90 shadow-[0_0.6rem_1.6rem_rgba(0,0,0,0.12)] backdrop-blur transition-transform hover:-translate-y-1/2 hover:scale-105 hover:bg-white sm:right-[1rem] sm:h-[3rem] sm:w-[3rem]'
+        className='absolute right-[0.25rem] xsm:right-[0.5rem] sm:right-[1rem] top-1/2 z-20 h-[1.75rem] w-[1.75rem] xsm:h-[2.25rem] xsm:w-[2.25rem] sm:h-[3rem] sm:w-[3rem] -translate-y-1/2 rounded-full border border-white/70 bg-white/80 shadow-md backdrop-blur transition-transform hover:-translate-y-1/2 hover:scale-105 hover:bg-white'
       >
-        <ChevronRight className='h-[1.125rem] w-[1.125rem]' />
+        <ChevronRight className='h-3 w-3 xsm:h-4 xsm:w-4 sm:h-5 sm:w-5' />
       </Button>
     </>
   )

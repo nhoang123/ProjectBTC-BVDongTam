@@ -15,8 +15,6 @@ export function HeroSlide({ slide, active }: Props) {
       }`}
       aria-hidden={!active}
     >
-      <div className='absolute inset-0 bg-[#eaf7ff]' />
-
       <Image
         src={slide.backgroundImage}
         alt={slide.alt}

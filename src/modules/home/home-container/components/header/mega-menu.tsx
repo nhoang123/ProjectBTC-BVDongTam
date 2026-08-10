@@ -14,7 +14,8 @@ type MegaMenuProps = {
 export function MegaMenu({ item }: MegaMenuProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [activeCategory, setActiveCategory] = useState<string>(
-    item.children?.find((c) => c.subItems)?.label || '')
+    item.children?.find((c) => c.subItems)?.label || '',
+  )
   const triggerRef = useRef<HTMLButtonElement>(null)
   const [menuTop, setMenuTop] = useState(0)
 
@@ -46,7 +47,9 @@ export function MegaMenu({ item }: MegaMenuProps) {
         className='flex items-center gap-1 text-[0.9375rem] font-medium text-slate-700 transition-colors hover:text-[#0a5c7e] outline-none'
       >
         {item.label}
-        <ChevronDown className={`h-4 w-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`} />
+        <ChevronDown
+          className={`h-4 w-4 transition-transform duration-200 ${isOpen ? 'rotate-180' : ''}`}
+        />
       </button>
 
       {isOpen && (
@@ -54,14 +57,14 @@ export function MegaMenu({ item }: MegaMenuProps) {
           className='fixed left-0 right-0 bg-white shadow-xl border-t border-slate-100 z-50'
           style={{ top: menuTop + 'px' }}
         >
-          <div className='mx-auto max-w-container px-16 xsm:px-16 sm:px-20 lg:px-24 py-10 mb-8'>
-            <div className='flex'>
-              <div className='w-[330px] shrink-0 grow-0 pr-10 border-r border-slate-100'>
+          <div className='mx-auto max-w-7xl px-6 lg:px-10 py-8'>
+            <div className='grid grid-cols-12 gap-8 items-start'>
+              <div className='col-span-3 pr-6 border-r border-slate-100'>
                 <div className='flex flex-col gap-1'>
                   {categoriesWithSub.map((cat) => (
                     <button
                       key={cat.label}
-                      className={`text-left px-4 py-3 text-[0.9375rem] transition-colors rounded-sm whitespace-nowrap ${
+                      className={`text-left px-4 py-3 text-[0.9375rem] transition-colors rounded-md ${
                         activeCategory === cat.label
                           ? 'bg-[#EAF5F9] text-[#0a5c7e] font-semibold'
                           : 'text-slate-700 hover:bg-slate-50 hover:text-[#0a5c7e]'
@@ -75,7 +78,7 @@ export function MegaMenu({ item }: MegaMenuProps) {
                     <Link
                       key={cat.label}
                       href={cat.href || '#'}
-                      className='px-4 py-3 text-[0.9375rem] text-slate-700 transition-colors hover:text-[#0a5c7e] rounded-sm hover:bg-slate-50 whitespace-nowrap'
+                      className='px-4 py-3 text-[0.9375rem] text-slate-700 transition-colors hover:text-[#0a5c7e] rounded-md hover:bg-slate-50'
                     >
                       {cat.label}
                     </Link>
@@ -83,21 +86,22 @@ export function MegaMenu({ item }: MegaMenuProps) {
                 </div>
               </div>
 
-              <div className='w-[460px] shrink-0 grow-0 px-10 border-r border-slate-100'>
-                <div className='flex flex-col gap-4'>
+              <div className='col-span-4 px-4 border-r border-slate-100 min-h-[18.75rem]'>
+                <div className='flex flex-col gap-3.5'>
                   {activeSubItems?.subItems?.map((sub) => (
                     <Link
                       key={sub.label}
                       href={sub.href || '#'}
-                      className='text-[0.9375rem] text-slate-700 transition-colors hover:text-[#0a5c7e] whitespace-nowrap'
+                      className='text-[0.9375rem] text-slate-700 transition-colors hover:text-[#0a5c7e]'
                     >
                       {sub.label}
                     </Link>
                   ))}
                 </div>
               </div>
-              <div className='flex-1 shrink-0 pl-6'>
-                <div className='relative w-full h-[420px] shadow-sm bg-[#E6F3FA]'>
+
+              <div className='col-span-5 pl-3'>
+                <div className='relative w-[35rem] h-[20rem] rounded-lg overflow-hidden shadow-sm bg-[#E6F3FA]'>
                   <Image
                     src='/images/image.png'
                     alt='Dịch vụ Bệnh viện Đồng Tâm'
@@ -106,7 +110,6 @@ export function MegaMenu({ item }: MegaMenuProps) {
                   />
                 </div>
               </div>
-
             </div>
           </div>
         </div>

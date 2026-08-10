@@ -1,15 +1,15 @@
 'use client'
 
 export interface Doctor {
-  id: number;
-  name: string;
-  title: string;
-  specialty: string;
-  specialtyColor?: string;
-  yearsOfExperience: number;
-  avatar: string;
-  bgImage?: string;
-  achievements: string[];
+  id: number
+  name: string
+  title: string
+  specialty: string
+  specialtyColor?: string
+  yearsOfExperience: number
+  avatar: string
+  bgImage?: string
+  achievements: string[]
 }
 
 export const doctorsData: Doctor[] = [

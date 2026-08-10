@@ -35,22 +35,20 @@ export function Header() {
           isScrolled ? 'shadow-md border-slate-200' : 'border-slate-100'
         }`}
       >
-        <div className='mx-auto max-w-container px-16 xsm:px-16 sm:px-20 lg:px-24'>
-          <div className='grid grid-cols-3 items-center h-20 lg:h-24'>
-            <div className='flex justify-start'>
-              <Logo />
-            </div>
+        <div className='mx-auto px-4 xsm:px-5 sm:px-6 lg:px-25 xl:px-10 2xl:px-16'>
+          <div className='flex items-center justify-between h-14 sm:h-20 lg:h-24'>
+            <Logo />
 
             <div className='hidden xl:block text-center'>
               <p
-                className='text-[3rem] text-[#F3BB28]'
+                className='text-[2.5rem] xsm:text-[2.75rem] sm:text-[3rem] text-[#F3BB28]'
                 style={{ fontFamily: 'var(--font-great-vibes)' }}
               >
                 Gieo mầm hạnh phúc
               </p>
             </div>
 
-            <div className='flex items-center justify-end gap-3'>
+            <div className='flex items-center gap-2 xsm:gap-3'>
               <div className='hidden sm:block'>
                 <SearchButton />
               </div>
@@ -62,6 +60,7 @@ export function Header() {
               <MobileNav />
             </div>
           </div>
+
           <div className='hidden lg:flex h-14 items-center justify-center border-t border-slate-100'>
             <DesktopNav />
           </div>
