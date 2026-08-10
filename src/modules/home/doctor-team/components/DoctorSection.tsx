@@ -1,6 +1,7 @@
 'use client'
+
 import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react'
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react'
 
 import { Button } from '@/components/UI/button'
 
@@ -17,11 +18,20 @@ const DoctorSection = () => {
   const [isHovering, setIsHovering] = useState(false)
   const [direction, setDirection] = useState<1 | -1>(1)
 
+  const [isDragging, setIsDragging] = useState(false)
+  const [dragOffset, setDragOffset] = useState(0)
+
+  const startX = useRef(0)
+  const currentX = useRef(0)
+  const isSwiping = useRef(false)
+  const autoPlayRef = useRef<NodeJS.Timeout | null>(null)
+
   const totalSlides = doctorsData.length
   const visibleSlides = isDesktop ? 3 : 1
   const maxIndex = Math.max(totalSlides - visibleSlides, 0)
   const activeIndex = Math.min(currentIndex, maxIndex)
 
+  // Kiểm tra màn hình Desktop / Mobile
   useEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 1024px)')
     const updateLayout = () => setIsDesktop(mediaQuery.matches)
@@ -30,7 +40,8 @@ const DoctorSection = () => {
     return () => mediaQuery.removeEventListener('change', updateLayout)
   }, [])
 
-  const scroll = (scrollDirection: 'left' | 'right') => {
+  // Function cuộn slide sang Trái/Phải
+  const scroll = useCallback((scrollDirection: 'left' | 'right') => {
     if (scrollDirection === 'left') {
       setCurrentIndex((prev) => Math.max(prev - 1, 0))
       setDirection(-1)
@@ -38,35 +49,92 @@ const DoctorSection = () => {
       setCurrentIndex((prev) => Math.min(prev + 1, maxIndex))
       setDirection(1)
     }
-  }
+  }, [maxIndex])
+
+  // Dừng Auto-play
+  const stopAutoPlay = useCallback(() => {
+    if (autoPlayRef.current) {
+      clearInterval(autoPlayRef.current)
+      autoPlayRef.current = null
+    }
+  }, [])
+
+  // Khởi chạy Auto-play
+  const startAutoPlay = useCallback(() => {
+    stopAutoPlay()
+    if (maxIndex > 0 && !isHovering && !isDragging) {
+      autoPlayRef.current = setInterval(() => {
+        setCurrentIndex((prevIndex) => {
+          const nextIndex = prevIndex + direction
+
+          if (nextIndex >= maxIndex) {
+            setDirection(-1)
+            return maxIndex
+          }
+
+          if (nextIndex <= 0) {
+            setDirection(1)
+            return 0
+          }
+
+          return nextIndex
+        })
+      }, 5000)
+    }
+  }, [maxIndex, isHovering, isDragging, direction, stopAutoPlay])
 
   useEffect(() => {
-    if (maxIndex <= 0 || isHovering) return
+    startAutoPlay()
+    return () => stopAutoPlay()
+  }, [startAutoPlay, stopAutoPlay])
 
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => {
-        const nextIndex = prevIndex + direction
+  // Xử lý bắt đầu kéo
+  const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    stopAutoPlay()
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
+    startX.current = clientX
+    currentX.current = clientX
+    isSwiping.current = true
+    setIsDragging(true)
+  }, [stopAutoPlay])
 
-        if (nextIndex >= maxIndex) {
-          setDirection(-1)
-          return maxIndex
-        }
+  // Xử lý trong khi kéo
+  const handleDragMove = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    if (!isSwiping.current) return
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
+    const diffX = clientX - startX.current
+    currentX.current = clientX
+    setDragOffset(diffX)
+  }, [])
 
-        if (nextIndex <= 0) {
-          setDirection(1)
-          return 0
-        }
+  // Xử lý thả chuột / kết thúc kéo
+  const handleDragEnd = useCallback(() => {
+    if (!isSwiping.current) return
 
-        return nextIndex
-      })
-    }, 5000)
+    const diff = currentX.current - startX.current
+    const threshold = 50
 
-    return () => clearInterval(interval)
-  }, [maxIndex, direction, isHovering])
+    if (Math.abs(diff) > threshold) {
+      if (diff > 0) {
+        scroll('left')
+      } else {
+        scroll('right')
+      }
+    }
+
+    setIsDragging(false)
+    setDragOffset(0)
+    isSwiping.current = false
+    startAutoPlay()
+  }, [scroll, startAutoPlay])
+
+  // Tính toán khoảng cách TranslateX (% vị trí slide + pixel kéo tay offset)
+  const baseTranslatePercent = (activeIndex * 100) / totalSlides
+  const transformStyle = `calc(-${baseTranslatePercent}% + ${dragOffset}px)`
 
   return (
     <section
-      className='relative w-full bg-[#f4f8fb] pt-2 xsm:pt-3 sm:pt-4 pb-8 xsm:pb-10 sm:pb-12 md:pb-16 overflow-hidden'
+      className='relative w-full bg-[#f4f8fb] pt-2 xsm:pt-3 sm:pt-4 pb-8 xsm:pb-10 sm:pb-12 md:pb-16 overflow-hidden select-none'
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
@@ -81,13 +149,26 @@ const DoctorSection = () => {
             onNext={() => scroll('right')}
           />
 
-          <div className='w-full overflow-x-hidden overflow-y-visible pb-3 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'>
+          <div
+            className='w-full overflow-x-hidden overflow-y-visible pb-3 touch-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+            onMouseDown={handleDragStart}
+            onMouseMove={handleDragMove}
+            onMouseUp={handleDragEnd}
+            onMouseLeave={handleDragEnd}
+            onTouchStart={handleDragStart}
+            onTouchMove={handleDragMove}
+            onTouchEnd={handleDragEnd}
+            onTouchCancel={handleDragEnd}
+            style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+          >
             <div
               className='flex will-change-transform'
               style={{
                 width: `${(totalSlides / visibleSlides) * 100}%`,
-                transform: `translate3d(-${(activeIndex * 100) / totalSlides}%, 0, 0)`,
-                transition: 'transform 750ms cubic-bezier(0.22, 1, 0.36, 1)',
+                transform: `translate3d(${transformStyle}, 0, 0)`,
+                transition: isDragging
+                  ? 'none'
+                  : 'transform 750ms cubic-bezier(0.22, 1, 0.36, 1)',
               }}
             >
               {doctorsData.map((doctor) => (

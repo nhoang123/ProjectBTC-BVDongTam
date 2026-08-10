@@ -238,3 +238,14 @@ input[type='number'] {
   height: 12px;
   display: block;
 }
+/* global.css hoặc tương tự */
+.hero-slider-container {
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: none;
+}
+
+.hero-slider-container * {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}

@@ -14,24 +14,38 @@ import { DateBadge } from './DateBadge'
 interface NewsCardProps {
   news: NewsItemType
   isSmallMobile?: boolean
+  isDragging?: boolean
 }
 
-export const NewsCard: React.FC<NewsCardProps> = ({ news, isSmallMobile = false }) => {
-  //   Layout bài viết nhỏ dạng hàng ngang trên Mobile
+export const NewsCard: React.FC<NewsCardProps> = ({
+  news,
+  isSmallMobile = false,
+  isDragging = false,
+}) => {
+  const handleClick = (e: React.MouseEvent) => {
+    if (isDragging) {
+      e.preventDefault()
+    }
+  }
+
   if (isSmallMobile) {
     return (
       <Link
         href={news.href}
-        className='group block w-full outline-none'
+        onClick={handleClick}
+        draggable={false}
+        onDragStart={(e) => e.preventDefault()}
+        className='group block w-full outline-none select-none'
       >
         <div className='flex items-center gap-3.5 py-1.5'>
-          <div className='relative h-20 w-32 shrink-0 overflow-hidden rounded-2xl bg-slate-100 shadow-xs'>
+          <div className='relative h-20 w-32 shrink-0 overflow-hidden rounded-2xl bg-slate-100 shadow-xs pointer-events-none'>
             <Image
               src={news.imageUrl}
               alt={news.title}
               fill
               sizes='128px'
-              className='object-cover object-center'
+              draggable={false}
+              className='object-cover object-center select-none'
             />
           </div>
 
@@ -56,21 +70,25 @@ export const NewsCard: React.FC<NewsCardProps> = ({ news, isSmallMobile = false 
     )
   }
 
-  // Layout Card mặc định (Desktop và Card lớn Mobile)
+  // Layout Card mặc định
   return (
     <Link
       href={news.href}
-      className='group block h-full outline-none'
+      onClick={handleClick}
+      draggable={false}
+      onDragStart={(e) => e.preventDefault()}
+      className='group block h-full outline-none select-none'
     >
       <Card className='relative h-full overflow-hidden rounded-2xl border-none bg-white shadow-xs transition-all duration-300 hover:shadow-md'>
         <CardContent className='p-0'>
-          <div className='relative h-48 w-full overflow-hidden bg-slate-100 sm:h-52 lg:h-[13.5rem]'>
+          <div className='relative h-48 w-full overflow-hidden bg-slate-100 sm:h-52 lg:h-[13.5rem] pointer-events-none'>
             <Image
               src={news.imageUrl}
               alt={news.title}
               fill
               sizes='(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw'
-              className='object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105'
+              draggable={false}
+              className='object-cover object-center transition-transform duration-500 ease-out group-hover:scale-105 select-none'
             />
           </div>
 
