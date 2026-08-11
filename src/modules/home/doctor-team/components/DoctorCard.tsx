@@ -342,7 +342,6 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
             </div>
           </div>
 
-          {/* Danh sách thành tựu Mobile */}
           <div className='block lg:hidden -mt-4 space-y-1 pr-1'>
             {doctor.achievements.map((item, index) => (
               <div

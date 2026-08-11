@@ -31,7 +31,6 @@ const DoctorSection = () => {
   const maxIndex = Math.max(totalSlides - visibleSlides, 0)
   const activeIndex = Math.min(currentIndex, maxIndex)
 
-  // Kiểm tra màn hình Desktop / Mobile
   useEffect(() => {
     const mediaQuery = window.matchMedia('(min-width: 1024px)')
     const updateLayout = () => setIsDesktop(mediaQuery.matches)
@@ -40,7 +39,6 @@ const DoctorSection = () => {
     return () => mediaQuery.removeEventListener('change', updateLayout)
   }, [])
 
-  // Function cuộn slide sang Trái/Phải
   const scroll = useCallback((scrollDirection: 'left' | 'right') => {
     if (scrollDirection === 'left') {
       setCurrentIndex((prev) => Math.max(prev - 1, 0))
@@ -51,7 +49,6 @@ const DoctorSection = () => {
     }
   }, [maxIndex])
 
-  // Dừng Auto-play
   const stopAutoPlay = useCallback(() => {
     if (autoPlayRef.current) {
       clearInterval(autoPlayRef.current)
@@ -59,7 +56,6 @@ const DoctorSection = () => {
     }
   }, [])
 
-  // Khởi chạy Auto-play
   const startAutoPlay = useCallback(() => {
     stopAutoPlay()
     if (maxIndex > 0 && !isHovering && !isDragging) {
@@ -88,7 +84,6 @@ const DoctorSection = () => {
     return () => stopAutoPlay()
   }, [startAutoPlay, stopAutoPlay])
 
-  // Xử lý bắt đầu kéo
   const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     stopAutoPlay()
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
@@ -98,7 +93,6 @@ const DoctorSection = () => {
     setIsDragging(true)
   }, [stopAutoPlay])
 
-  // Xử lý trong khi kéo
   const handleDragMove = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     if (!isSwiping.current) return
     const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
@@ -107,7 +101,6 @@ const DoctorSection = () => {
     setDragOffset(diffX)
   }, [])
 
-  // Xử lý thả chuột / kết thúc kéo
   const handleDragEnd = useCallback(() => {
     if (!isSwiping.current) return
 
@@ -128,7 +121,6 @@ const DoctorSection = () => {
     startAutoPlay()
   }, [scroll, startAutoPlay])
 
-  // Tính toán khoảng cách TranslateX (% vị trí slide + pixel kéo tay offset)
   const baseTranslatePercent = (activeIndex * 100) / totalSlides
   const transformStyle = `calc(-${baseTranslatePercent}% + ${dragOffset}px)`
 
