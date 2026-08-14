@@ -176,6 +176,7 @@ export const FeaturedNewsSection: React.FC = () => {
             ))}
           </div>
 
+
           <div className='pt-[1.5rem] flex justify-center'>
             <Button
               asChild
