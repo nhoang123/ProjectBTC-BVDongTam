@@ -20,35 +20,35 @@ export function SearchButton() {
   }
 
   return (
-    <div className='flex items-center justify-end gap-1.5 xsm:gap-2'>
+    <div className='flex items-center justify-end gap-[0.5rem]'>
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className='flex h-[2.5rem] xsm:h-[2.75rem] w-[2.5rem] xsm:w-[2.75rem] shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 hover:text-[#0a5c7e]'
+          className='flex h-[2.75rem] w-[2.75rem] shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-500 transition-colors hover:bg-slate-200 hover:text-[#0a5c7e]'
         >
-          <Search className='h-5 w-5' />
+          <Search className='h-[1.25rem] w-[1.25rem]' />
         </button>
       )}
 
       {isOpen && (
-        <div className='flex items-center gap-1.5 xsm:gap-2'>
-          <div className='flex h-[2.5rem] xsm:h-[2.75rem] w-48 xsm:w-56 sm:w-64 items-center rounded-full bg-slate-100 px-3 xsm:px-4 transition-all duration-300'>
-            <Search className='mr-2 h-5 w-5 shrink-0 text-slate-500' />
+        <div className='flex items-center gap-[0.5rem]'>
+          <div className='flex h-[2.75rem] w-[16rem] items-center rounded-full bg-slate-100 px-[1rem] transition-all duration-300'>
+            <Search className='mr-[0.5rem] h-[1.25rem] w-[1.25rem] shrink-0 text-slate-500' />
             <input
               ref={inputRef}
               type='text'
               placeholder='Tìm kiếm dịch vụ...'
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              className='w-full bg-transparent text-[0.875rem] xsm:text-[0.9375rem] text-slate-700 placeholder:text-slate-400 outline-none'
+              className='w-full bg-transparent text-[0.9375rem] text-slate-700 placeholder:text-slate-400 outline-none'
             />
           </div>
 
           <button
             onClick={handleClose}
-            className='flex h-[2.5rem] xsm:h-[2.75rem] w-[2.5rem] xsm:w-[2.75rem] shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-400 transition-colors hover:bg-slate-200 hover:text-slate-700'
+            className='flex h-[2.75rem] w-[2.75rem] shrink-0 items-center justify-center rounded-full bg-slate-100 text-slate-400 transition-colors hover:bg-slate-200 hover:text-slate-700'
           >
-            <X className='h-5 w-5' />
+            <X className='h-[1.25rem] w-[1.25rem]' />
           </button>
         </div>
       )}

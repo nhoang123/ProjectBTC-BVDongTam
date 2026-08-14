@@ -44,15 +44,18 @@ export function useHeroSlider(totalSlides: number, autoPlayInterval: number = 50
     return () => stopAutoPlay()
   }, [startAutoPlay, stopAutoPlay])
 
-  const handleDragStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    stopAutoPlay()
-    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
-    startX.current = clientX
-    currentX.current = clientX
-    isSwiping.current = true
-    setIsDragging(true)
-    setIsTransitioning(false)
-  }, [stopAutoPlay])
+  const handleDragStart = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      stopAutoPlay()
+      const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX
+      startX.current = clientX
+      currentX.current = clientX
+      isSwiping.current = true
+      setIsDragging(true)
+      setIsTransitioning(false)
+    },
+    [stopAutoPlay],
+  )
 
   const handleDragMove = useCallback((e: React.MouseEvent | React.TouchEvent) => {
     if (!isSwiping.current) return

@@ -2,7 +2,11 @@ import type { Config } from 'tailwindcss'
 import plugin from 'tailwindcss/plugin'
 
 const config: Config = {
-  content: ['./src/**/**/*.{js,ts,jsx,tsx,mdx}'],
+  content: [
+    './src/**/**/*.{js,ts,jsx,tsx,mdx}',
+    './components/**/*.{js,ts,jsx,tsx,mdx}',
+    './app/**/*.{js,ts,jsx,tsx,mdx}',
+  ],
   theme: {
     screens: {
       lg: '1025px',

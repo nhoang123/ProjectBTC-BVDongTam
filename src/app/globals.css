@@ -53,9 +53,29 @@ html {
   font-size: 1vw;
 }
 
+/* Trong global.css, thêm vào phần mobile */
 @media (max-width: 639px) {
   html {
     font-size: 4.26666667vw;
+  }
+
+  /* Ẩn ảnh desktop */
+  .desktop-only {
+    display: none !important;
+  }
+  /* Hiển thị ảnh mobile */
+  .mobile-only {
+    display: flex !important;
+  }
+}
+
+/* Desktop (≥ 640px) */
+@media (min-width: 640px) {
+  .desktop-only {
+    display: flex !important;
+  }
+  .mobile-only {
+    display: none !important;
   }
 }
 
@@ -248,4 +268,39 @@ input[type='number'] {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
+}
+/* Thêm vào globals.css hoặc file styles của bạn */
+
+/* Shimmer effect cho khung ngoài */
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-12deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-12deg);
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Border pulse effect khi hover */
+@keyframes borderPulse {
+  0% {
+    opacity: 0.3;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(0.98);
+  }
+}
+
+.animate-border-pulse {
+  animation: borderPulse 2s ease-in-out infinite;
 }

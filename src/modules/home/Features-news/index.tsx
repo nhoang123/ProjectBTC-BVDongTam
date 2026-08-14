@@ -6,12 +6,11 @@ import Link from 'next/link'
 import React, { useSyncExternalStore, useState, useRef, useEffect } from 'react'
 
 import { Button } from '@/components/UI/button'
-
-import { NewsCard } from './components/NewsCard'
-import { NewsHeader } from './components/NewsHeader'
-import { NewsSliderControls } from './components/NewsSliderControls'
-import { NewsSliderPagination } from './components/NewsSliderPagination'
-import { mockNewsData } from './data/news.mock'
+import { NewsCard } from '@/modules/home/features-news/components/news-card'
+import { NewsHeader } from '@/modules/home/features-news/components/news-header'
+import { NewsSliderControls } from '@/modules/home/features-news/components/news-slider-controls'
+import { NewsSliderPagination } from '@/modules/home/features-news/components/news-slider-pagination'
+import { mockNewsData } from '@/modules/home/features-news/data/news-mock'
 
 const subscribe = (callback: () => void) => {
   window.addEventListener('resize', callback)
@@ -59,7 +58,7 @@ export const FeaturedNewsSection: React.FC = () => {
       mass: 0.5,
     })
     return () => controls.stop()
-  }, [safeIndex, singleItemPx])
+  }, [safeIndex, singleItemPx, x])
 
   const handlePrev = () => setCurrentIndex((prev) => Math.max(0, prev - 1))
   const handleNext = () => setCurrentIndex((prev) => Math.min(maxIndex, prev + 1))
@@ -89,8 +88,8 @@ export const FeaturedNewsSection: React.FC = () => {
   const listNews = mockNewsData.slice(1)
 
   return (
-    <section className='relative w-full overflow-hidden bg-white py-8 lg:py-20'>
-      <div className='pointer-events-none absolute bottom-0 left-0 right-0 z-0 hidden h-[26rem] w-full lg:block'>
+    <section className='relative w-full overflow-hidden bg-white py-[5rem] xsm:py-[2rem]'>
+      <div className='pointer-events-none absolute bottom-0 left-0 right-0 z-0 w-full'>
         <svg
           className='h-full w-full'
           viewBox='0 0 1440 320'
@@ -99,17 +98,18 @@ export const FeaturedNewsSection: React.FC = () => {
           xmlns='http://www.w3.org/2000/svg'
         >
           <path
-            d='M-50,180 C350,120 1050,280 1490,160 L1490,260 C1050,380 350,220 -50,280 Z'
+            d='M-50,220 C350,160 1050,300 1490,200 L1490,320 L-50,320 Z'
             fill='#e0f2fe'
             fillOpacity='0.6'
           />
         </svg>
       </div>
 
-      <div className='container relative z-10 mx-auto w-full max-w-[95rem] px-4 lg:px-[4.5rem]'>
+      <div className='container relative z-10 mx-auto w-full max-w-[95rem] px-[4.5rem] xsm:px-[1rem]'>
         <NewsHeader />
 
-        <div className='relative mt-8 hidden lg:block'>
+        {/* ===== DESKTOP SLIDER ===== */}
+        <div className='block xsm:hidden relative mt-[2rem]'>
           <NewsSliderControls
             onPrev={handlePrev}
             onNext={handleNext}
@@ -136,7 +136,7 @@ export const FeaturedNewsSection: React.FC = () => {
               {mockNewsData.map((news) => (
                 <div
                   key={news.id}
-                  className='shrink-0 px-3.5 select-none'
+                  className='shrink-0 px-[0.875rem] select-none'
                   style={{ width: `${100 / itemsPerPage}%` }}
                 >
                   <div className='relative z-10 w-full drop-shadow-sm'>
@@ -158,14 +158,15 @@ export const FeaturedNewsSection: React.FC = () => {
           />
         </div>
 
-        <div className='block lg:hidden mt-6 space-y-4'>
+        {/* ===== MOBILE LAYOUT (LIST) ===== */}
+        <div className='hidden xsm:block mt-[1.5rem] space-y-[1rem]'>
           {featuredNews && (
             <div className='w-full'>
               <NewsCard news={featuredNews} />
             </div>
           )}
 
-          <div className='mt-4 flex flex-col gap-3 pt-2'>
+          <div className='mt-[1rem] flex flex-col gap-[0.75rem] pt-[0.5rem]'>
             {listNews.map((news) => (
               <NewsCard
                 key={news.id}
@@ -175,18 +176,18 @@ export const FeaturedNewsSection: React.FC = () => {
             ))}
           </div>
 
-          <div className='pt-6 flex justify-center'>
+          <div className='pt-[1.5rem] flex justify-center'>
             <Button
               asChild
               variant='outline'
-              className='h-11 rounded-full border border-[#0089cf] bg-white px-8 text-sm font-bold text-[#0089cf] transition-all'
+              className='h-[2.75rem] rounded-full border border-[#0089cf] bg-white px-[2rem] text-[0.875rem] font-bold text-[#0089cf] transition-all'
             >
               <Link
                 href='/tin-tuc'
-                className='flex items-center gap-2'
+                className='flex items-center gap-[0.5rem]'
               >
                 <span>Xem tất cả</span>
-                <ArrowRight className='h-4 w-4' />
+                <ArrowRight className='h-[1rem] w-[1rem]' />
               </Link>
             </Button>
           </div>

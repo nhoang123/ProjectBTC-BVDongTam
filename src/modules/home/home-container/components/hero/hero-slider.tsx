@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 
-import { heroSlides } from '../../data/hero.mock'
+import { heroSlides } from '../../data/hero-mock'
 import { useHeroSlider } from '../../hooks/use-hero-slider'
 
 import { HeroControls } from './hero-controls'
@@ -47,14 +47,17 @@ export function HeroSlider() {
 
   return (
     <section
-      aria-label="Banner trang chủ"
-      className="relative overflow-hidden w-full select-none"
+      aria-label='Banner trang chủ'
+      className='relative overflow-hidden w-full select-none'
       onMouseEnter={() => setIsHovering(true)}
       onMouseLeave={() => setIsHovering(false)}
     >
       <div
         ref={containerRef}
-        className="relative w-full aspect-28/10 sm:aspect-auto sm:h-112.5 md:h-137.5 lg:h-162.5 xl:h-175 touch-none"
+        className='relative w-full left-0 xsm:w-[23.4375rem] xsm:left-[50%] xsm:-ml-[11.71875rem]'
+        style={{
+          cursor: isDragging ? 'grabbing' : 'grab',
+        }}
         onMouseDown={handleDragStart}
         onMouseMove={handleDragMove}
         onMouseUp={handleDragEnd}
@@ -63,37 +66,41 @@ export function HeroSlider() {
         onTouchMove={handleDragMove}
         onTouchEnd={handleDragEnd}
         onTouchCancel={handleDragEnd}
-        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
       >
-        <div
-          className="flex h-full w-full"
-          onTransitionEnd={handleTransitionEnd}
-          style={{
-            transform: `translateX(${transformStyle})`,
-            transition: !enableTransition || isDragging || !isTransitioning
-              ? 'none'
-              : 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)',
-          }}
-        >
-          {extendedSlides.map((slide, index) => {
-            const isActive = index === displayIndex
-
-            return (
-              <div
-                key={`${slide.id}-clone-${index}`}
-                className="w-full h-full shrink-0"
-              >
-                <HeroSlide
-                  slide={slide}
-                  active={isActive}
-                  isDragging={isDragging}
-                />
-              </div>
-            )
-          })}
+        <div className={`w-full h-[35rem] xsm:h-[8rem] ${isDragging ? 'pointer-events-none' : ''}`}>
+          <div
+            className='flex h-full w-full relative'
+            onTransitionEnd={handleTransitionEnd}
+            style={{
+              transform: `translateX(${transformStyle})`,
+              transition:
+                !enableTransition || isDragging || !isTransitioning
+                  ? 'none'
+                  : 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)',
+            }}
+          >
+            {extendedSlides.map((slide, index) => {
+              const isActive = index === displayIndex
+              return (
+                <div
+                  key={`${slide.id}-${index}`}
+                  className='w-full h-full shrink-0 relative'
+                >
+                  <HeroSlide
+                    slide={slide}
+                    active={isActive}
+                    isDragging={isDragging}
+                  />
+                </div>
+              )
+            })}
+          </div>
         </div>
 
-        <HeroControls onPrev={prev} onNext={next} />
+        <HeroControls
+          onPrev={prev}
+          onNext={next}
+        />
       </div>
     </section>
   )

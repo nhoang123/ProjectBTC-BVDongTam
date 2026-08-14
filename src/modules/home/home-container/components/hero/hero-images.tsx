@@ -8,8 +8,8 @@ type Props = {
 export function HeroImages({ doctorImage, motherImage }: Props) {
   return (
     <>
-      <div className='absolute left-0 bottom-0 hidden h-full w-[20%] xsm:w-[22%] sm:w-[24%] md:w-[26%] items-end lg:flex'>
-        <div className='relative h-[80%] xsm:h-[83%] sm:h-[85%] w-full'>
+      <div className='absolute left-0 bottom-0 flex h-[30rem] w-[19.8rem] items-end xsm:hidden'>
+        <div className='relative h-[22.5rem] w-[19.8rem]'>
           <Image
             src={doctorImage}
             alt='Bác sĩ tư vấn'
@@ -19,9 +19,8 @@ export function HeroImages({ doctorImage, motherImage }: Props) {
           />
         </div>
       </div>
-
-      <div className='absolute right-0 bottom-0 hidden h-full w-[26%] xsm:w-[28%] sm:w-[30%] md:w-[32%] items-end justify-end lg:flex'>
-        <div className='relative h-[84%] xsm:h-[86%] sm:h-[88%] w-full'>
+      <div className='absolute right-0 bottom-0 flex h-[30rem] w-[25.2rem] items-end justify-end xsm:hidden'>
+        <div className='relative h-[23.4rem] w-[25.2rem]'>
           <Image
             src={motherImage}
             alt='Mẹ và bé'
@@ -31,15 +30,16 @@ export function HeroImages({ doctorImage, motherImage }: Props) {
           />
         </div>
       </div>
-
-      <div className='relative mx-auto mb-4 xsm:mb-6 h-40 xsm:h-48 sm:h-56 w-40 xsm:w-48 sm:w-56 lg:hidden'>
-        <Image
-          src={motherImage}
-          alt='Mẹ và bé'
-          fill
-          className='object-contain'
-          priority
-        />
+      <div className='hidden justify-center items-center xsm:flex'>
+        <div className='relative w-[14rem] h-[14rem] xsm:w-[10rem] xsm:h-[10rem]'>
+          <Image
+            src={motherImage}
+            alt='Mẹ và bé'
+            fill
+            className='object-contain'
+            priority
+          />
+        </div>
       </div>
     </>
   )
