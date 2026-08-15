@@ -167,7 +167,7 @@ const DoctorSection = () => {
           />
 
           <div
-            className='slider-container mx-auto w-full xsm:mt-[3rem] max-w-[85.5rem] overflow-x-hidden overflow-y-visible touch-none [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
+            className='slider-container mx-auto w-full xsm:mt-[3rem] max-w-[85.5rem] overflow-x-hidden overflow-y-visible  touch-pan-y [scrollbar-width:none] [&::-webkit-scrollbar]:hidden'
             onMouseDown={handleDragStart}
             onMouseMove={handleDragMove}
             onMouseUp={handleDragEnd}

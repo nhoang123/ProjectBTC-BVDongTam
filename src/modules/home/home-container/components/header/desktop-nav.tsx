@@ -6,7 +6,7 @@ import { MegaMenu } from './mega-menu'
 
 export function DesktopNav() {
   return (
-    <nav className='xsm:hidden flex items-center gap-[3.6rem] h-full'>
+    <nav className='xsm:hidden flex items-center gap-[3.2rem] h-full'>
       {navigationItems.map((item) => {
         const hasMegaMenu = item.children && item.children.some((c: any) => c.subItems)
 

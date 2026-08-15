@@ -312,7 +312,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
       {/* ========================================================================= */}
       <div className='hidden xsm:block relative h-full w-full overflow-visible'>
         <div className='relative h-[23rem] w-full rounded-[1.35rem] border border-[#dbe8f4] bg-white px-[0.75rem] pb-[0.875rem] pt-[8rem] shadow-sm overflow-visible flex flex-col'>
-          <div className='absolute inset-0 z-0 rounded-[1.35rem] overflow-hidden'>
+          <div className='absolute border-2 inset-0 z-0 -ml-[0.5rem] rounded-[1.35rem] overflow-hidden'>
             <Image
               src={
                 doctor.bgImage ||

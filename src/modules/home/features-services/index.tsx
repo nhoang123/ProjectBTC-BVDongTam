@@ -119,7 +119,7 @@ export const FeaturedServicesSection: React.FC = () => {
           onMouseLeave={() => setIsHoveringMobile(false)}
         >
           <div
-            className='w-full overflow-hidden touch-none py-[0.25rem]'
+            className='w-full overflow-hidden touch-pan-y py-[0.25rem]'
             onMouseDown={handleDragStart}
             onMouseMove={handleDragMove}
             onMouseUp={handleDragEnd}

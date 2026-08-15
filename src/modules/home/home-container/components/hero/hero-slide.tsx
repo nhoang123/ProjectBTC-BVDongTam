@@ -14,7 +14,7 @@ export function HeroSlide({ slide, active, isDragging = false }: Props) {
       className='shrink-0 w-full h-full relative overflow-hidden'
       style={{
         pointerEvents: isDragging ? 'none' : 'auto',
-        touchAction: 'none',
+        touchAction: 'pan-y',
       }}
       aria-hidden={!active}
     >
