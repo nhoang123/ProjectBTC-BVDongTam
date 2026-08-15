@@ -1,11 +1,7 @@
 export interface HeroSlide {
   id: string | number
-  subtitle: string
-  title: string
-  description: string
   backgroundImage: string
   alt: string
-  backgroundPosition?: string
 }
 
 export interface UseHeroSliderReturn {

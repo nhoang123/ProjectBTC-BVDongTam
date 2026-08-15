@@ -1,107 +1,77 @@
 'use client'
 
-import { useState } from 'react'
+import { useRef } from 'react'
+import type { Swiper as SwiperType } from 'swiper'
+import { Autoplay, Navigation } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+
+import 'swiper/css'
+import 'swiper/css/navigation'
+import '../css/hero-slider.css'
 
 import { heroSlides } from '../../data/hero-mock'
-import { useHeroSlider } from '../../hooks/use-hero-slider'
 
+import { DecorativeElements } from './decorative-elements'
 import { HeroControls } from './hero-controls'
 import { HeroSlide } from './hero-slide'
 
 export function HeroSlider() {
-  const totalSlides = heroSlides.length
+  const swiperRef = useRef<SwiperType | null>(null)
 
-  const {
-    current,
-    setCurrent,
-    next,
-    prev,
-    isDragging,
-    dragOffset,
-    isTransitioning,
-    containerRef,
-    handleDragStart,
-    handleDragMove,
-    handleDragEnd,
-    setIsHovering,
-  } = useHeroSlider(totalSlides)
-
-  const [enableTransition, setEnableTransition] = useState(true)
-  const extendedSlides = [...heroSlides, ...heroSlides, ...heroSlides]
-
-  const displayIndex = totalSlides + current
-  const handleTransitionEnd = () => {
-    if (current >= totalSlides || current <= -totalSlides) {
-      setEnableTransition(false)
-      const normalizedCurrent = ((current % totalSlides) + totalSlides) % totalSlides
-      setCurrent(normalizedCurrent)
-      requestAnimationFrame(() => {
-        requestAnimationFrame(() => {
-          setEnableTransition(true)
-        })
-      })
+  const handlePrev = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slidePrev()
     }
   }
 
-  const transformStyle = `calc(-${displayIndex * 100}% + ${dragOffset}px)`
+  const handleNext = () => {
+    if (swiperRef.current) {
+      swiperRef.current.slideNext()
+    }
+  }
 
   return (
     <section
       aria-label='Banner trang chủ'
-      className='relative overflow-hidden w-full select-none'
-      onMouseEnter={() => setIsHovering(true)}
-      onMouseLeave={() => setIsHovering(false)}
+      className='relative w-full select-none'
     >
-      <div
-        ref={containerRef}
-        className='relative w-full left-0 xsm:w-[23.4375rem] xsm:left-[50%] xsm:-ml-[11.71875rem]'
-        style={{
-          cursor: isDragging ? 'grabbing' : 'grab',
+      <Swiper
+        onSwiper={(swiper) => (swiperRef.current = swiper)}
+        modules={[Autoplay, Navigation]}
+        loop={true}
+        speed={600}
+        spaceBetween={0}
+        slidesPerView={1}
+        autoplay={{
+          delay: 5000,
+          disableOnInteraction: false,
+          pauseOnMouseEnter: true,
+          reverseDirection: false,
         }}
-        onMouseDown={handleDragStart}
-        onMouseMove={handleDragMove}
-        onMouseUp={handleDragEnd}
-        onMouseLeave={handleDragEnd}
-        onTouchStart={handleDragStart}
-        onTouchMove={handleDragMove}
-        onTouchEnd={handleDragEnd}
-        onTouchCancel={handleDragEnd}
+        navigation={{
+          prevEl: '.hero-prev-btn',
+          nextEl: '.hero-next-btn',
+        }}
+        className='relative w-full'
+        style={{ height: '35rem' }}
       >
-        <div className={`w-full h-[35rem] xsm:h-[8rem] ${isDragging ? 'pointer-events-none' : ''}`}>
-          <div
-            className='flex h-full w-full relative'
-            onTransitionEnd={handleTransitionEnd}
-            style={{
-              transform: `translateX(${transformStyle})`,
-              transition:
-                !enableTransition || isDragging || !isTransitioning
-                  ? 'none'
-                  : 'transform 500ms cubic-bezier(0.25, 1, 0.5, 1)',
-            }}
-          >
-            {extendedSlides.map((slide, index) => {
-              const isActive = index === displayIndex
-              return (
-                <div
-                  key={`${slide.id}-${index}`}
-                  className='w-full h-full shrink-0 relative'
-                >
-                  <HeroSlide
-                    slide={slide}
-                    active={isActive}
-                    isDragging={isDragging}
-                  />
-                </div>
-              )
-            })}
-          </div>
-        </div>
+        {heroSlides.map((slide) => (
+          <SwiperSlide key={slide.id}>
+            {({ isActive }) => (
+              <div className='relative w-full h-full'>
+                <HeroSlide
+                  slide={slide}
+                  active={isActive}
+                />
 
-        <HeroControls
-          onPrev={prev}
-          onNext={next}
-        />
-      </div>
+                <DecorativeElements />
+              </div>
+            )}
+          </SwiperSlide>
+        ))}
+      </Swiper>
+
+      <HeroControls onPrev={handlePrev} onNext={handleNext} />
     </section>
   )
 }

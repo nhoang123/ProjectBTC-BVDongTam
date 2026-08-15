@@ -11,23 +11,19 @@ export function HeroControls({ onPrev, onNext }: Props) {
   return (
     <>
       <Button
-        variant='secondary'
-        size='icon'
         onClick={onPrev}
         aria-label='Xem slide trước'
-        className='absolute left-[1rem] xsm:left-[0.5rem] top-1/2 z-20 h-[3rem] xsm:h-[2rem] w-[3rem] xsm:w-[2rem] -translate-y-1/2 rounded-full border border-white/70 bg-white/80 shadow-md backdrop-blur transition-transform hover:-translate-y-1/2 hover:scale-105 hover:bg-white'
+        className='group hero-prev-btn absolute left-[1rem] xsm:left-[0.5rem] top-1/2 z-30 flex h-[3rem] xsm:h-[2rem] w-[3rem] xsm:w-[2rem] -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-[#e1e5e7] shadow-md transition-colors hover:bg-[#51c6f5]'
       >
-        <ChevronLeft className='h-[1.25rem] w-[1.25rem] xsm:h-[1rem] xsm:w-[1rem]' />
+        <ChevronLeft className='h-[1.25rem] w-[1.25rem] xsm:h-[1rem] xsm:w-[1rem] text-gray-500 group-hover:text-[#dee6e9]' />
       </Button>
 
       <Button
-        variant='secondary'
-        size='icon'
         onClick={onNext}
         aria-label='Xem slide tiếp theo'
-        className='absolute right-[1rem] xsm:right-[0.5rem] top-1/2 z-20 h-[3rem] xsm:h-[2rem] w-[3rem] xsm:w-[2rem] -translate-y-1/2 rounded-full border border-white/70 bg-white/80 shadow-md backdrop-blur transition-transform hover:-translate-y-1/2 hover:scale-105 hover:bg-white'
+        className='group hero-next-btn absolute right-[1rem] xsm:right-[0.5rem] top-1/2 z-30 flex h-[3rem] xsm:h-[2rem] w-[3rem] xsm:w-[2rem] -translate-y-1/2 items-center justify-center rounded-full border border-white/70 bg-[#e1e5e7] shadow-md transition-colors hover:bg-[#51c6f5]'
       >
-        <ChevronRight className='h-[1.25rem] w-[1.25rem] xsm:h-[1rem] xsm:w-[1rem]' />
+        <ChevronRight className='h-[1.25rem] w-[1.25rem] xsm:h-[1rem] xsm:w-[1rem] text-gray-500 group-hover:text-[#dee6e9]' />
       </Button>
     </>
   )
