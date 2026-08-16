@@ -1,26 +1,28 @@
+/* hero-slider.css - Đầy đủ */
 /* Ẩn navigation buttons mặc định của Swiper */
 .swiper-button-prev,
 .swiper-button-next {
   display: none !important;
 }
 
-/* Kiểm soát chiều cao Swiper */
+/* Reset padding cho hero slider */
 .swiper {
   height: 35rem !important;
+  padding: 0 !important; /* Quan trọng: loại bỏ padding */
 }
 
 @media (max-width: 640px) {
   .swiper {
-    height: 8rem !important;
+    height: 10rem !important;
+    padding: 0 !important;
   }
 }
 
-/* Tối ưu transition cho slide - Chỉ trượt ngang */
+/* Tối ưu transition cho slide */
 .swiper-slide {
   transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
-/* Đảm bảo slide hiển thị đúng */
 .swiper-wrapper {
   transition-timing-function: cubic-bezier(0.25, 1, 0.5, 1) !important;
 }

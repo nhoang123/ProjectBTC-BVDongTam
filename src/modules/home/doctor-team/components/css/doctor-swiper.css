@@ -1,0 +1,88 @@
+/* doctor-swiper.css */
+/* Reset các style mặc định của Swiper */
+.swiper-button-prev,
+.swiper-button-next {
+  display: none !important;
+}
+
+.swiper-pagination {
+  display: none !important;
+}
+
+/* Đảm bảo Swiper container chiếm toàn bộ không gian */
+.doctor-swiper {
+  width: 100%;
+  height: auto;
+  overflow: visible !important;
+}
+
+.doctor-swiper .swiper-wrapper {
+  align-items: stretch;
+  height: auto !important;
+}
+
+.doctor-swiper .swiper-slide {
+  height: auto !important;
+  width: auto !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: stretch;
+  padding: 0 !important;
+}
+
+/* GIỮ NGUYÊN KÍCH THƯỚC CARD BAN ĐẦU */
+.doctor-swiper .swiper-slide > div {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Responsive - KHÔNG thêm padding */
+@media (max-width: 640px) {
+  .doctor-swiper .swiper-slide {
+    padding: 0 !important;
+  }
+}
+
+/* Hiệu ứng transition mượt mà */
+.doctor-swiper .swiper-wrapper {
+  transition-timing-function: cubic-bezier(0.22, 1, 0.36, 1) !important;
+}
+
+/* ========================================================= */
+/* 🛑 QUAN TRỌNG: GHI ĐÈ LỖI CHIỀU CAO CỦA SLIDER KHÁC */
+/* ========================================================= */
+
+/* Dùng specificity cao để ghi đè lên height: 8rem từ file hero-slider.css */
+.doctor-swiper.swiper {
+  height: auto !important; 
+  padding: 0 !important;
+}
+
+.doctor-swiper.swiper .swiper-wrapper {
+  height: auto !important;
+}
+
+.doctor-swiper.swiper .swiper-slide {
+  height: auto !important;
+  width: auto !important;
+  display: flex !important;
+  justify-content: center;
+  align-items: stretch;
+}
+
+/* ========================================================= */
+/* 📱 CHỈ ÁP DỤNG CHIỀU CAO TỐI THIỂU TRÊN MOBILE */
+/* ========================================================= */
+@media (max-width: 639px) {
+  .doctor-swiper.swiper {
+    min-height: 38rem !important; /* Chỉ giữ chiều cao tối thiểu trên Mobile */
+  }
+  .doctor-swiper.swiper .swiper-wrapper {
+    min-height: 38rem !important;
+  }
+  .doctor-swiper.swiper .swiper-slide {
+    min-height: 38rem !important;
+  }
+}

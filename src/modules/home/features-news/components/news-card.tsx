@@ -49,7 +49,7 @@ export const NewsCard: React.FC<NewsCardProps> = ({
           </div>
 
           <div className='flex flex-1 flex-col justify-center'>
-            <h4 className='line-clamp-2 text-[0.9375rem] font-bold leading-snug text-slate-800 transition-colors group-hover:text-[#0089cf]'>
+            <h4 className='line-clamp-2 text-[1rem] font-medium leading-snug text-slate-800 transition-colors group-hover:text-[#0089cf]'>
               {news.title}
             </h4>
 

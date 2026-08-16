@@ -1,94 +1,40 @@
 'use client'
 
-import { motion, useMotionValue, animate as animateMotionValue } from 'framer-motion'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import Link from 'next/link'
-import React, { useSyncExternalStore, useState, useRef, useEffect } from 'react'
+import { useRef, useState } from 'react'
+import type { Swiper as SwiperType } from 'swiper'
+import { Autoplay, Navigation, Pagination } from 'swiper/modules'
+import { Swiper, SwiperSlide } from 'swiper/react'
+
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import './components/css/news-slider.css'
 
 import { Button } from '@/components/UI/button'
 import { NewsCard } from '@/modules/home/features-news/components/news-card'
 import { NewsHeader } from '@/modules/home/features-news/components/news-header'
-import { NewsSliderControls } from '@/modules/home/features-news/components/news-slider-controls'
-import { NewsSliderPagination } from '@/modules/home/features-news/components/news-slider-pagination'
 import { mockNewsData } from '@/modules/home/features-news/data/news-mock'
 
-const subscribe = (callback: () => void) => {
-  window.addEventListener('resize', callback)
-  return () => window.removeEventListener('resize', callback)
-}
-
-const getItemsPerPage = () => {
-  if (typeof window === 'undefined') return 3
-  if (window.innerWidth >= 1024) return 3
-  if (window.innerWidth >= 640) return 2
-  return 1
-}
-
 export const FeaturedNewsSection: React.FC = () => {
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [isDragging, setIsDragging] = useState(false)
-  const [trackWidth, setTrackWidth] = useState(0)
+  const swiperRef = useRef<SwiperType | null>(null)
+  const [activeIndex, setActiveIndex] = useState(0)
 
-  const containerRef = useRef<HTMLDivElement>(null)
-  const x = useMotionValue(0)
+  const handlePrev = () => swiperRef.current?.slidePrev()
+  const handleNext = () => swiperRef.current?.slideNext()
 
-  const itemsPerPage = useSyncExternalStore(subscribe, getItemsPerPage, () => 3)
-  const totalSlides = mockNewsData.length
-
-  const maxIndex = Math.max(0, totalSlides - itemsPerPage)
-  const safeIndex = Math.min(currentIndex, maxIndex)
-
-  useEffect(() => {
-    const updateWidth = () => {
-      if (containerRef.current) {
-        setTrackWidth(containerRef.current.offsetWidth)
-      }
-    }
-    updateWidth()
-    window.addEventListener('resize', updateWidth)
-    return () => window.removeEventListener('resize', updateWidth)
-  }, [])
-
-  const singleItemPx = trackWidth > 0 ? trackWidth / itemsPerPage : 0
-  useEffect(() => {
-    const controls = animateMotionValue(x, -safeIndex * singleItemPx, {
-      type: 'spring',
-      stiffness: 240,
-      damping: 25,
-      mass: 0.5,
-    })
-    return () => controls.stop()
-  }, [safeIndex, singleItemPx, x])
-
-  const handlePrev = () => setCurrentIndex((prev) => Math.max(0, prev - 1))
-  const handleNext = () => setCurrentIndex((prev) => Math.min(maxIndex, prev + 1))
-  const handleSelectPage = (index: number) => setCurrentIndex(Math.min(index, maxIndex))
-
-  const handleDragStart = () => {
-    setIsDragging(true)
-  }
-
-  const handleDragEnd = (_: unknown, info: { offset: { x: number }; velocity: { x: number } }) => {
-    setTimeout(() => setIsDragging(false), 50)
-
-    const threshold = 40
-    const velocityThreshold = 200
-
-    let newIndex = safeIndex
-
-    if (info.offset.x < -threshold || info.velocity.x < -velocityThreshold) {
-      newIndex = Math.min(maxIndex, safeIndex + 1)
-    } else if (info.offset.x > threshold || info.velocity.x > velocityThreshold) {
-      newIndex = Math.max(0, safeIndex - 1)
-    }
-    setCurrentIndex(newIndex)
+  const _handleSlideChange = (swiper: SwiperType) => {
+    setActiveIndex(swiper.realIndex)
   }
 
   const featuredNews = mockNewsData[0]
   const listNews = mockNewsData.slice(1)
+  const slidesPerView = 3
+  const totalPages = Math.max(mockNewsData.length - slidesPerView + 1, 1)
 
   return (
-    <section className='relative w-full overflow-hidden bg-white py-[5rem] xsm:py-[2rem]'>
+    <section className='relative w-full overflow-hidden bg-white py-20 xsm:py-8'>
       <div className='pointer-events-none absolute bottom-0 left-0 right-0 z-0 w-full'>
         <svg
           className='h-full w-full'
@@ -105,90 +51,101 @@ export const FeaturedNewsSection: React.FC = () => {
         </svg>
       </div>
 
-      <div className='container relative z-10 mx-auto w-full max-w-[95rem] px-[4.5rem] xsm:px-[1rem]'>
+      <div className='container relative z-10 mx-auto w-full max-w-380 px-18 xsm:px-4'>
         <NewsHeader />
 
         {/* ===== DESKTOP SLIDER ===== */}
-        <div className='block xsm:hidden relative mt-[2rem]'>
-          <NewsSliderControls
-            onPrev={handlePrev}
-            onNext={handleNext}
-            canPrev={safeIndex > 0}
-            canNext={safeIndex < maxIndex}
-          />
-
-          <div
-            ref={containerRef}
-            className='relative w-full overflow-hidden cursor-grab active:cursor-grabbing select-none'
+        <div className='relative mt-8 block xsm:hidden'>
+          <button
+            onClick={handlePrev}
+            aria-label='Previous Slide'
+            className='news-prev-btn'
           >
-            <motion.div
-              className='flex touch-none'
-              style={{ x }}
-              drag='x'
-              dragConstraints={{
-                left: -(totalSlides - itemsPerPage) * singleItemPx,
-                right: 0,
-              }}
-              dragElastic={0.15}
-              onDragStart={handleDragStart}
-              onDragEnd={handleDragEnd}
-            >
-              {mockNewsData.map((news) => (
-                <div
-                  key={news.id}
-                  className='shrink-0 px-[0.875rem] select-none'
-                  style={{ width: `${100 / itemsPerPage}%` }}
-                >
+            <ChevronLeft className='h-6 w-6 stroke-[2.5]' />
+          </button>
+
+          <button
+            onClick={handleNext}
+            aria-label='Next Slide'
+            className='news-next-btn'
+          >
+            <ChevronRight className='h-6 w-6 stroke-[2.5]' />
+          </button>
+
+          <Swiper
+            onSwiper={(swiper) => (swiperRef.current = swiper)}
+            modules={[Autoplay, Navigation, Pagination]}
+            loop={false}
+            speed={600}
+            spaceBetween={0}
+            slidesPerView={3}
+            autoplay={{
+              delay: 5000,
+              disableOnInteraction: false,
+              pauseOnMouseEnter: true,
+            }}
+            pagination={{
+              clickable: true,
+              dynamicBullets: true,
+            }}
+            className='relative w-full overflow-hidden pb-8'
+            onSlideChange={_handleSlideChange}
+            breakpoints={{
+              640: { slidesPerView: 2, spaceBetween: 0 },
+              1024: { slidesPerView: 3, spaceBetween: 0 },
+            }}
+          >
+            {mockNewsData.map((news) => (
+              <SwiperSlide key={news.id}>
+                <div className='select-none px-3.5'>
                   <div className='relative z-10 w-full drop-shadow-sm'>
-                    <NewsCard
-                      news={news}
-                      isDragging={isDragging}
-                    />
+                    <NewsCard news={news} />
                   </div>
                 </div>
-              ))}
-            </motion.div>
-          </div>
+              </SwiperSlide>
+            ))}
+          </Swiper>
 
-          <NewsSliderPagination
-            totalDots={totalSlides}
-            itemsPerPage={itemsPerPage}
-            activeIndex={safeIndex}
-            onSelect={handleSelectPage}
-          />
+          <div className='-mt-[10rem] flex items-center justify-center gap-2'>
+            {Array.from({ length: totalPages }).map((_, idx) => {
+              const isActive = activeIndex === idx
+              return (
+                <button
+                  key={idx}
+                  onClick={() => swiperRef.current?.slideTo(idx)}
+                  className={`h-1 rounded-full transition-all duration-300 ${
+                    isActive ? 'w-12 bg-[#0089cf]' : 'w-5 bg-slate-300 hover:bg-slate-400'
+                  }`}
+                  aria-label={`Go to page ${idx + 1}`}
+                />
+              )
+            })}
+          </div>
         </div>
 
         {/* ===== MOBILE LAYOUT (LIST) ===== */}
-        <div className='hidden xsm:block mt-[1.5rem] space-y-[1rem]'>
+        <div className='hidden xsm:block mt-6 space-y-4'>
           {featuredNews && (
             <div className='w-full'>
               <NewsCard news={featuredNews} />
             </div>
           )}
 
-          <div className='mt-[1rem] flex flex-col gap-[0.75rem] pt-[0.5rem]'>
+          <div className='mt-4 flex flex-col gap-3 pt-2'>
             {listNews.map((news) => (
-              <NewsCard
-                key={news.id}
-                news={news}
-                isSmallMobile={true}
-              />
+              <NewsCard key={news.id} news={news} isSmallMobile={true} />
             ))}
           </div>
 
-
-          <div className='pt-[1.5rem] flex justify-center'>
+          <div className='flex justify-center pt-6'>
             <Button
               asChild
               variant='outline'
-              className='h-[2.75rem] rounded-full border border-[#0089cf] bg-white px-[2rem] text-[0.875rem] font-bold text-[#0089cf] transition-all'
+              className='h-11 rounded-full border border-[#0089cf] bg-white px-8 text-[0.875rem] font-bold text-[#0089cf] transition-all'
             >
-              <Link
-                href='/tin-tuc'
-                className='flex items-center gap-[0.5rem]'
-              >
+              <Link href='/tin-tuc' className='flex items-center gap-2'>
                 <span>Xem tất cả</span>
-                <ArrowRight className='h-[1rem] w-[1rem]' />
+                <ArrowRight className='h-4 w-4' />
               </Link>
             </Button>
           </div>

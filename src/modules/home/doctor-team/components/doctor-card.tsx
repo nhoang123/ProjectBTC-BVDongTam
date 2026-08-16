@@ -170,9 +170,7 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
 
   return (
     <>
-      {/* ========================================================================= */}
       {/* 1. LAYOUT DESKTOP */}
-      {/* ========================================================================= */}
       <div className='block xsm:hidden group relative h-full w-full pb-[2rem]'>
         <div className='relative h-full w-full rounded-[1.5rem] border border-[#dbe8f4] bg-white px-[0.25rem] py-[0.5rem] shadow-sm transition-all duration-300 hover:shadow-[0_8px_30px_rgba(0,0,0,0.12),0_4px_15px_rgba(0,0,0,0.08)] overflow-visible'>
           <div className='absolute inset-0 z-0 rounded-[1.5rem] overflow-hidden'>
@@ -307,11 +305,9 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
         </div>
       </div>
 
-      {/* ========================================================================= */}
       {/* 2. LAYOUT MOBILE */}
-      {/* ========================================================================= */}
-      <div className='hidden xsm:block relative h-full w-full overflow-visible'>
-        <div className='relative h-[23rem] w-full rounded-[1.35rem] border border-[#dbe8f4] bg-white px-[0.75rem] pb-[0.875rem] pt-[8rem] shadow-sm overflow-visible flex flex-col'>
+      <div className='hidden xsm:block relative w-full overflow-visible'>
+        <div className='relative min-h-[23rem] w-full rounded-[1.35rem] border border-[#dbe8f4] bg-white px-[0.75rem] pb-[0.875rem] pt-[8rem] shadow-sm overflow-visible flex flex-col'>
           <div className='absolute border-2 inset-0 z-0 -ml-[0.5rem] rounded-[1.35rem] overflow-hidden'>
             <Image
               src={
@@ -322,10 +318,9 @@ const DoctorCard: React.FC<DoctorCardProps> = ({ doctor }) => {
               fill
               className='object-cover opacity-90'
             />
-            {/* <div className='absolute inset-0 bg-gradient-to-t from-white/96 via-white/70 to-white/25' /> */}
           </div>
 
-          <div className='relative z-10 flex flex-col h-full'>
+          <div className='relative z-10 flex flex-1 flex-col'>
             <div
               className='relative w-full h-[12rem] shrink-0'
               style={{ transform: 'translateY(-3.5rem)' }}
